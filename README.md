@@ -1,8 +1,6 @@
 # EPOS (Enterprise Platform OS)
 
-> A production-inspired Enterprise Banking Platform built to explore enterprise architecture, distributed systems, cloud-native engineering, AI, and Technical Program Management.
-
----
+A production-inspired Enterprise Banking Platform built to explore enterprise architecture, distributed systems, cloud-native engineering, AI, and Technical Program Management.
 
 ## Overview
 
