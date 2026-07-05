@@ -1,24 +1,33 @@
 # Dependencies
 node_modules/
 
-# Build output
+# Build outputs
 dist/
-
-# Logs
-*.log
+build/
+out/
 
 # Environment
 .env
 .env.*
 
-# macOS
-.DS_Store
-
-# IDE
-.vscode/
+# Logs
+*.log
+logs/
 
 # Coverage
 coverage/
 
 # Turbo
 .turbo/
+
+# TypeScript
+*.tsbuildinfo
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
