@@ -2,177 +2,79 @@
 
 ## Purpose
 
-This document defines the core architecture principles for EPOS.
-
-These principles guide design, implementation, review, and future evolution of the platform.
+This document defines the architectural principles that guide the design, development, and evolution of the EPOS platform. These principles establish a consistent engineering approach across all releases.
 
 ---
 
-## 1. Production-Inspired Design
+## Principle 1 – Business Capability Driven
 
-EPOS should be designed as a realistic enterprise platform, not as a toy application or simple simulator.
-
-Every major component should consider reliability, security, observability, scalability, maintainability, and operability.
+Architecture should be organized around business capabilities rather than technologies.
 
 ---
 
-## 2. Platform Before Product
+## Principle 2 – API First
 
-EPOS is a shared enterprise platform.
-
-Business domains such as payments, cards, trade finance, FX, lending, and compliance should run on top of reusable platform capabilities.
-
-The platform should provide common services such as identity, API management, events, data, workflow, observability, security, deployment, and operations.
+Every business capability should expose well-defined APIs before implementation.
 
 ---
 
-## 3. Architecture Before Implementation
+## Principle 3 – Cloud Native by Design
 
-Before building major capabilities, define:
-
-- the problem being solved
-- the target design
-- service boundaries
-- data ownership
-- dependencies
-- failure modes
-- trade-offs
-- operational expectations
-
-Implementation should follow architecture, not replace it.
+Design services to leverage cloud-native principles including independent deployment, elasticity, resilience, automation, and service isolation, ensuring failures are contained and the platform can scale and evolve efficiently.
 
 ---
 
-## 4. Build While Learning
+## Principle 4 – Modular Architecture
 
-EPOS should not have theory-only phases.
-
-Every architectural concept should eventually result in working software, documentation, tests, or operational behavior.
-
-The daily workflow is:
-
-```text
-Theory → Design → Build → Test → Break → Observe → Improve → Document
-```
+The platform should be composed of loosely coupled and independently deployable services wherever appropriate.
 
 ---
 
-## 5. Domain-Driven Boundaries
+## Principle 5 – Security by Design
 
-Business capabilities should be organized using Domain Driven Design principles.
-
-Each domain should have clear ownership, language, APIs, data boundaries, and events.
-
-Avoid unclear service boundaries and shared database ownership across domains.
+Security must be incorporated into architecture from the beginning rather than added later.
 
 ---
 
-## 6. API-First and Contract-Driven
+## Principle 6 – Observability by Default
 
-Services should expose clear contracts.
-
-Use REST, gRPC, GraphQL, or events only when they fit the use case.
-
-Contracts should be documented before or alongside implementation.
-
-Breaking changes should be intentional, versioned, and documented.
+Every service should provide logging, metrics, health checks, and tracing to support operational excellence.
 
 ---
 
-## 7. Data Ownership
+## Principle 7 – Automation First
 
-Each service or domain should own its data.
-
-Direct database access across service boundaries should be avoided.
-
-Integration should happen through APIs, events, read models, or approved data pipelines.
+Build, testing, deployment, and operational activities should be automated wherever practical.
 
 ---
 
-## 8. Security by Design
+## Principle 8 – End-to-End Solution Design
 
-Security is not a later phase.
+Every major capability within EPOS shall be designed from an end-to-end perspective before implementation.
 
-Authentication, authorization, secrets, encryption, auditability, least privilege, and secure defaults should be considered from the beginning.
+Each feature should be considered across the following lifecycle:
 
----
+1. Business Capability
+2. User Workflow
+3. User Interface (Wireframe)
+4. API Contract
+5. Domain Model
+6. Service Architecture
+7. Data Model
+8. Infrastructure
+9. Testing
+10. Operations & Observability
 
-## 9. Observability by Default
-
-Every important component should produce useful logs, metrics, and traces.
-
-If the system cannot be observed, it cannot be trusted.
-
-Operational visibility is part of the architecture.
-
----
-
-## 10. Resilience and Failure Awareness
-
-Every major design should consider failure.
-
-For each component, understand:
-
-- what happens if it fails
-- how failure is detected
-- how recovery works
-- what data may be lost or delayed
-- what the user/system impact is
+Implementation remains backend-first. User workflows and interface concepts are designed before development to ensure APIs and services support real business processes.
 
 ---
 
-## 11. Automation First
+## Principle 9 – Documentation as an Engineering Asset
 
-Manual steps should be minimized.
-
-Prefer automation for:
-
-- build
-- test
-- deployment
-- infrastructure
-- configuration
-- validation
-- documentation generation where practical
+Architecture, engineering decisions, and governance documentation should evolve alongside the platform and remain current throughout the program lifecycle.
 
 ---
 
-## 12. Documentation as Code
+## Principle 10 – Evolution Over Perfection
 
-Architecture decisions, diagrams, release plans, runbooks, risks, and design notes should live in the repository.
-
-Documentation should evolve with the system.
-
----
-
-## 13. Incremental Release-Based Delivery
-
-EPOS should evolve through planned releases.
-
-Each release should have:
-
-- scope
-- milestones
-- deliverables
-- risks
-- dependencies
-- exit criteria
-- production readiness review
-
----
-
-## 14. Intentional Technical Debt
-
-Technical debt is allowed only when it is visible, intentional, and tracked.
-
-Do not hide shortcuts.
-
-Document why the shortcut exists, what risk it creates, and when it should be revisited.
-
----
-
-## 15. Operability Is a Feature
-
-A capability is not complete until it can be deployed, monitored, debugged, recovered, and supported.
-
-Runbooks, alerts, logs, metrics, dashboards, and rollback plans are part of delivery.
+Architecture should evolve incrementally through validated decisions and Architecture Decision Records (ADRs), balancing long-term goals with practical delivery.

@@ -1,54 +1,102 @@
 # EPOS (Enterprise Platform OS)
 
-A production-inspired Enterprise Banking Platform built to explore enterprise architecture, distributed systems, cloud-native engineering, AI, and Technical Program Management.
+Enterprise Platform OS (EPOS) is a long-term engineering program to design and build a modern enterprise banking platform from the ground up.
 
-## Overview
-
-EPOS is a long-term engineering program focused on building a modern enterprise banking platform using production-inspired engineering practices.
-
-The project is designed to explore the architecture, design, implementation, deployment, and operation of enterprise-scale systems through incremental, release-based development.
+The program focuses on enterprise architecture, cloud-native engineering, distributed systems, platform engineering, AI, and end-to-end banking capabilities while following real-world software engineering and program management practices.
 
 ---
 
-## Current Status
+## Platform Strategy
 
-- **Release:** 1.x
-- **Phase:** -1 – Technology & Platform Baseline
-- **Status:** 🟢 In Progress
+EPOS is designed as a complete enterprise banking platform comprising backend services, platform capabilities, and a modern web portal.
 
----
+Although the platform is built **backend-first**, every major capability is designed **end-to-end**. Business workflows, user experience, APIs, domain models, architecture, and infrastructure are considered together before implementation.
 
-## Roadmap
-
-| Release | Focus | Status |
-|---------|------------------------------|------------|
-| **1.x** | Enterprise Foundation | 🟢 In Progress |
-| **2.x** | Core Platform Services | ⚪ Planned |
-| **3.x** | Core Banking Platform | ⚪ Planned |
-| **4.x** | Enterprise Banking | ⚪ Planned |
-| **5.x** | Distributed Systems | ⚪ Planned |
-| **6.x** | Platform Engineering | ⚪ Planned |
-| **7.x** | Enterprise Intelligence & Operations | ⚪ Planned |
+The enterprise web portal will be introduced incrementally as the platform matures, providing operational dashboards and management interfaces for banking users, platform engineers, and administrators.
 
 ---
 
-## Technology
+## Program Roadmap
 
-- TypeScript / JavaScript
-- Python
-- Node.js
-- PostgreSQL
-- Redis
-- Kafka
-- Docker
-- Kubernetes
-- AWS
-- Terraform
-- GitHub Actions
-- OpenTelemetry
+| Release | Objective | Status |
+|----------|-----------------------------------------------|--------|
+| **1.0** | Enterprise Foundation | 🟢 In Progress |
+| **2.0** | Core Platform Services | ⚪ Planned |
+| **3.0** | Core Banking Platform & API Foundation | ⚪ Planned |
+| **4.0** | Enterprise Banking Portal (Initial UI) | ⚪ Planned |
+| **5.0** | Distributed Systems & Platform Operations | ⚪ Planned |
+| **6.0** | Platform Engineering & Reliability | ⚪ Planned |
+| **7.0** | Enterprise Intelligence, AI & Unified Operations Portal | ⚪ Planned |
 
 ---
 
-## Status
+## Engineering Approach
 
-🚧 EPOS is currently under active development.
+Every major capability within EPOS follows the same engineering lifecycle:
+
+```text
+Business Requirement
+        ↓
+User Workflow
+        ↓
+UI Wireframe
+        ↓
+API Design
+        ↓
+Domain Model
+        ↓
+Architecture
+        ↓
+Implementation
+        ↓
+Testing
+        ↓
+Deployment
+        ↓
+Operations
+```
+
+This approach ensures that every backend capability is designed with the end user and operational workflow in mind, while maintaining a backend-first implementation strategy.
+
+---
+
+## Current Phase
+
+| Item | Value |
+|------|-------|
+| **Release** | 1.0 |
+| **Phase** | 0 – Engineering Foundation |
+| **Status** | 🟢 In Progress |
+
+---
+
+## Documentation
+
+- Architecture Principles
+- Engineering Standards
+- Architecture Decision Records (ADRs)
+- Program Roadmap
+- Release Plans
+- RAID Register
+- Dependency Matrix
+- Daily Engineering Log
+
+---
+
+## Repository
+
+The repository contains:
+
+- Enterprise platform architecture
+- Platform engineering components
+- Banking domain services
+- Shared libraries
+- Infrastructure as Code
+- Engineering documentation
+- Program management artifacts
+
+---
+
+## License
+
+This project is intended for learning, engineering experimentation, and portfolio demonstration.
