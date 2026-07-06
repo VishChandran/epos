@@ -28,6 +28,15 @@ app.get("/health/ready", (_req, res) => {
   });
 });
 
+app.get("/info", (_req, res) => {
+  res.json({
+    name: "EPOS System API",
+    version: "1.0.0",
+    environment: process.env.NODE_ENV ?? "development",
+    runtime: process.version
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`EPOS System API listening on port ${PORT}`);
 });
