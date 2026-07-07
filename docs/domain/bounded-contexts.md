@@ -5,7 +5,7 @@
 **Status:** Draft  
 **Phase:** Phase 1 – Enterprise Domain Modeling  
 **Related Documents:**
-- `docs/domain/enterprise-domain-model.md`
+- `docs/domain/core-enterprise-domain-model.md`
 - `docs/architecture/adr/ADR-0006-party-as-root-identity-concept.md`
 
 ---

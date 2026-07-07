@@ -91,6 +91,6 @@ This decision establishes the foundation for enterprise identity across EPOS.
 
 ## References
 
-- `docs/domain/enterprise-domain-model.md`
+- `docs/domain/core-enterprise-domain-model.md`
 - EPOS Architecture Principles
 - EPOS Engineering Standards

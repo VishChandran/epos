@@ -28,7 +28,7 @@ The enterprise web portal will be introduced incrementally as the platform matur
 | **6.0** | Platform Engineering & Reliability | **Phases 25–27** | ⚪ Planned |
 | **7.0** | Enterprise Intelligence & AI | **Phases 28–30** | ⚪ Planned |
 
-> **Detailed phase planning is available in `program/roadmap.md`.**
+> **Detailed phase planning is available in `program/core-roadmap.md`.**
 
 ---
 

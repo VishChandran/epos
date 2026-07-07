@@ -156,9 +156,9 @@ Release 1.0 can be formally closed when:
 
 # Related Documents
 
-- `program/roadmap.md`
-- `docs/architecture/architecture-principles.md`
-- `docs/architecture/engineering-standards.md`
+- `program/core-roadmap.md`
+- `docs/architecture/core-architecture-principles.md`
+- `docs/architecture/core-engineering-standards.md`
 - `docs/architecture/adr/`
 - `program/governance/raid-log.md`
 - `program/governance/dependency-matrix.md`
