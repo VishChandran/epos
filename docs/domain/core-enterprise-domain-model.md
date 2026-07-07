@@ -1,16 +1,234 @@
-# EPOS Enterprise Domain Model
+# EPOS Core Enterprise Domain Model
 
 ## Purpose
 
-This document defines the initial enterprise banking domain model for EPOS.
+This document defines the high-level business architecture of the EPOS enterprise banking platform.
 
-The purpose of this model is to establish the shared business language, core entities, relationships, ownership rules, and boundaries that will guide future architecture and implementation.
+It serves as the primary source of truth for the enterprise domain model by identifying the major business domains, their core entities, and the relationships between them.
 
-EPOS will treat business architecture as the foundation for system design. Implementation should follow the domain model, not define it.
+This document intentionally focuses on **business concepts**, not technical implementation.
 
-## Core Entities
+---
 
-The initial EPOS enterprise domain consists of:
+# Enterprise Domain Hierarchy
+
+```text
+Enterprise Banking Platform
+│
+├── Enterprise Foundation
+│   ├── Identity
+│   ├── Customer
+│   ├── Products
+│   ├── Agreements
+│   ├── Accounts
+│   ├── Ledger
+│   └── Reference Data
+│
+├── Banking Products
+│   ├── Deposits
+│   ├── Loans
+│   ├── Mortgages
+│   ├── Line of Credit
+│   └── Credit Cards
+│
+├── Payments
+│   ├── Domestic Payments
+│   ├── International Payments
+│   ├── Wires
+│   ├── SWIFT
+│   ├── RTP
+│   ├── ACH / EFT
+│   └── Settlement
+│
+├── Cards
+│   ├── Debit Cards
+│   ├── Credit Cards
+│   ├── Authorization
+│   ├── PIN Management
+│   └── Card Lifecycle
+│
+├── Channels
+│   ├── ATM
+│   ├── POS
+│   ├── IVR
+│   ├── Mobile Banking
+│   ├── Web Banking
+│   ├── Branch
+│   └── APIs
+│
+├── Foreign Exchange
+│   ├── Exchange Rates
+│   ├── Currency Conversion
+│   ├── FX Deals
+│   └── FX Settlement
+│
+├── Trade Finance
+│   ├── Letter of Credit
+│   ├── Bank Guarantees
+│   ├── Documentary Collections
+│   └── Trade Settlement
+│
+├── Risk & Compliance
+│   ├── AML
+│   ├── Fraud Management
+│   ├── Sanctions
+│   ├── Limits
+│   └── Monitoring
+│
+└── Enterprise Services
+    ├── Notifications
+    ├── Documents
+    ├── Audit
+    ├── Reporting
+    └── Workflow
+```
+
+---
+
+# Enterprise Foundation
+
+The Enterprise Foundation establishes the common business language used throughout the platform.
+
+It defines the core concepts upon which every other business domain depends.
+
+Core concepts include:
+
+- Party
+- Customer
+- Product
+- Agreement
+- Account
+- Ledger
+- Reference Data
+
+---
+
+# Banking Products
+
+Banking Products represent the financial products offered by the institution.
+
+Examples include:
+
+- Deposit Accounts
+- Loans
+- Mortgages
+- Line of Credit
+- Credit Card Products
+
+Products define the business offering, while accounts represent operational instances of those products.
+
+---
+
+# Payments
+
+The Payments domain manages the movement of money between accounts, customers, financial institutions, and payment networks.
+
+Examples include:
+
+- Domestic Transfers
+- International Transfers
+- Wires
+- SWIFT
+- ACH / EFT
+- Real-Time Payments
+- Settlement
+
+---
+
+# Cards
+
+The Cards domain manages the lifecycle and authorization of debit and credit cards.
+
+Responsibilities include:
+
+- Card Issuance
+- Card Activation
+- PIN Management
+- Authorization
+- Card Replacement
+- Card Lifecycle Management
+
+---
+
+# Channels
+
+Channels represent the methods through which customers and external systems interact with the enterprise.
+
+Channels do not own business logic.
+
+They consume application services exposed by the enterprise.
+
+Examples include:
+
+- ATM
+- POS
+- IVR
+- Mobile Banking
+- Web Banking
+- Branch
+- APIs
+
+---
+
+# Foreign Exchange
+
+The Foreign Exchange domain manages currency conversion and foreign exchange operations.
+
+Responsibilities include:
+
+- Exchange Rates
+- Currency Conversion
+- FX Deals
+- FX Settlement
+
+---
+
+# Trade Finance
+
+The Trade Finance domain supports international trade and commercial banking operations.
+
+Examples include:
+
+- Letters of Credit
+- Bank Guarantees
+- Documentary Collections
+- Trade Settlement
+
+---
+
+# Risk & Compliance
+
+This domain enforces regulatory, operational, and financial controls across the enterprise.
+
+Responsibilities include:
+
+- Anti-Money Laundering (AML)
+- Fraud Detection
+- Sanctions Screening
+- Customer and Transaction Limits
+- Monitoring and Compliance
+
+---
+
+# Enterprise Services
+
+Enterprise Services provide capabilities shared across multiple business domains.
+
+Examples include:
+
+- Notifications
+- Document Management
+- Audit
+- Reporting
+- Workflow
+
+These services support the enterprise but do not contain core banking business logic.
+
+---
+
+# Core Enterprise Entities
+
+The following enterprise entities form the foundation of the EPOS domain model:
 
 - Party
 - Customer
@@ -23,378 +241,16 @@ The initial EPOS enterprise domain consists of:
 - Employee
 - Channel
 
-## Entity Definitions
-
-### Party
-
-Any person or organization known to the enterprise.
-
-### Customer
-
-A Party that has an active or historical banking relationship with the bank.
-
-### Product
-
-A financial product offered by the bank, such as chequing, savings, credit card, mortgage, loan, or line of credit.
-
-### Agreement
-
-The contractual relationship between a Customer and the bank for a Product.
-
-### Account
-
-The operational record created under an Agreement that maintains balances, servicing state, and transactions.
-
-### Ledger
-
-The accounting record representing the financial truth of the platform.
-
-### Transaction
-
-A business event that changes, attempts to change, or records movement against an Account or Ledger.
-
-### Branch
-
-A physical banking location.
-
-### Employee
-
-A Party acting on behalf of the bank.
-
-### Channel
-
-The access path used to initiate or service activity, such as branch, ATM, mobile, web, call centre, batch, or API.
-
-## Relationships
-
-The primary enterprise identity model is:
-
-```text
-Party
-    ↓ may become
-Customer
-    ↓ enters into
-Agreement
-    ↓ for
-Product
-    ↓ creates / governs
-Account
-    ↓ records
-Transaction
-    ↓ posts to
-Ledger
-```
-
-## Ownership Rules
-
-| Entity | Owns |
-|---|---|
-| Party | Identity information |
-| Customer | Banking relationship |
-| Product | Product definition and business rules |
-| Agreement | Contractual terms |
-| Account | Operational servicing state and balances |
-| Ledger | Accounting truth |
-| Transaction | Movement and request history |
-| Channel | Origin of activity |
-| Branch | Physical banking context |
-| Employee | Internal actor context |
-
-## Ubiquitous Language
-
-| Use | Instead Of |
-|---|---|
-| Party | Person |
-| Customer | User |
-| Agreement | Contract |
-| Account | Wallet |
-| Transaction | Payment |
-| Ledger Entry | Balance Update |
-| Channel | Frontend |
-| Product | Account Type |
-
-## Domain Boundaries
-
-### Identity Domain
-
-Owns Party identity and enterprise-recognized actors.
-
-### Customer Domain
-
-Owns the banking relationship between a Party and the institution.
-
-### Product Domain
-
-Owns financial product definitions, eligibility, and business rules.
-
-### Agreement Domain
-
-Owns contractual relationships between Customers and Products.
-
-### Account Domain
-
-Owns operational account state, servicing status, and balance-facing behavior.
-
-### Ledger Domain
-
-Owns accounting truth and financial posting records.
-
-### Transaction Domain
-
-Owns movement requests, attempts, outcomes, and transaction history.
-
-### Channel Domain
-
-Owns the origin and access path of banking activity.
-
-### Branch Domain
-
-Owns physical banking location context.
-
-### Employee Domain
-
-Owns internal actor context for employees acting on behalf of the bank.
-
-## Open Questions
-
-- Should Employee be modeled as a role of Party or as a separate domain aggregate?
-- Should Branch belong under Channel or remain a separate physical-location domain?
-- Should Transaction and Ledger be separated immediately, or should Ledger be introduced after Account modeling?
-- Should Product rules be modeled before Agreement creation?
-- Should Account balance be stored directly, derived from Ledger, or represented as a read model?
-
-## Decisions
-
-### Decision 1: Party is the root identity concept
-
-EPOS will use Party as the root enterprise identity concept instead of Customer.
-
-Customer represents a banking relationship role. Party represents the broader enterprise identity of a person or organization.
-
-Customer records will reference Party records instead of duplicating identity information throughout the platform.
-
-## Aggregate Design
-
-### Purpose
-
-Aggregate Design defines the transaction boundaries of the enterprise domain.
-
-An aggregate is a cluster of related business entities that are treated as a single unit for consistency. Every aggregate has one **Aggregate Root**, which is the only object that may be referenced directly from outside the aggregate.
-
-The aggregate root is responsible for enforcing all business rules and invariants within its boundary.
+Additional entities will be introduced within their respective business domains as the platform evolves.
 
 ---
 
-## Aggregate Principles
+# Domain Relationships
 
-EPOS follows these aggregate design principles:
+High-level business relationships are defined separately in:
 
-1. Every aggregate has exactly one Aggregate Root.
-2. External domains reference only Aggregate Roots.
-3. Cross-aggregate references are by identifier rather than object references.
-4. Business invariants are enforced within the aggregate boundary.
-5. Cross-aggregate workflows are coordinated through domain services or domain events.
-6. Aggregates should remain small and focused on a single business responsibility.
+- `entity-relationships.md`
+- `bounded-contexts.md`
+- `business-capability-model.md`
 
----
-
-## Identity Aggregate
-
-### Aggregate Root
-
-**Party**
-
-### Purpose
-
-Represents the enterprise identity of any person or organization known to the bank.
-
-### Contains
-
-- Party
-- Customer (business role)
-- Employee (business role)
-
-### Responsibilities
-
-- Enterprise identity
-- Legal identity
-- Contact information
-- Identity lifecycle
-- Enterprise role assignment
-
-### References
-
-None
-
----
-
-## Product Aggregate
-
-### Aggregate Root
-
-**Product**
-
-### Purpose
-
-Defines financial products offered by the institution.
-
-### Responsibilities
-
-- Product definitions
-- Product configuration
-- Eligibility rules
-- Interest configuration
-- Fees
-- Product lifecycle
-
-### References
-
-None
-
----
-
-## Agreement Aggregate
-
-### Aggregate Root
-
-**Agreement**
-
-### Purpose
-
-Represents the contractual relationship between a Customer and the bank for a Product.
-
-### Responsibilities
-
-- Contractual terms
-- Effective dates
-- Product association
-- Customer association
-- Agreement lifecycle
-
-### References
-
-- Party (through Customer)
-- Product
-
----
-
-## Account Aggregate
-
-### Aggregate Root
-
-**Account**
-
-### Purpose
-
-Represents the operational servicing record created under an Agreement.
-
-### Responsibilities
-
-- Account status
-- Available balance
-- Operational servicing state
-- Limits
-- Account lifecycle
-
-### References
-
-- Agreement
-
----
-
-## Transaction Aggregate
-
-### Aggregate Root
-
-**Transaction**
-
-### Purpose
-
-Represents a business event that moves or attempts to move value.
-
-### Responsibilities
-
-- Transaction lifecycle
-- Authorization state
-- Settlement state
-- Processing status
-- Channel information
-
-### References
-
-- Account
-- Channel
-
----
-
-## Ledger Aggregate
-
-### Aggregate Root
-
-**Ledger**
-
-### Purpose
-
-Represents the accounting source of truth for the enterprise.
-
-### Responsibilities
-
-- Financial postings
-- Accounting integrity
-- Double-entry bookkeeping
-- Auditability
-
-### References
-
-- Transaction
-
----
-
-## Aggregate Ownership Matrix
-
-| Aggregate Root | Owns | References |
-|----------------|------|------------|
-| Party | Enterprise identity | None |
-| Product | Product definitions | None |
-| Agreement | Contractual relationship | Party (Customer), Product |
-| Account | Operational servicing | Agreement |
-| Transaction | Transaction lifecycle | Account, Channel |
-| Ledger | Financial truth | Transaction |
-
----
-
-## Transaction Boundaries
-
-Each aggregate defines its own consistency boundary.
-
-Business rules must be enforced within the aggregate before changes are committed.
-
-Cross-aggregate updates should occur through well-defined application services or domain events rather than allowing one aggregate to modify another directly.
-
-Examples:
-
-- A Customer opening a new Account requires coordination between the Agreement and Account aggregates.
-- A successful Transaction results in a Ledger posting but does not directly modify the Ledger aggregate.
-- Product changes do not directly update existing Accounts; those changes are managed through Agreement rules and servicing processes.
-
----
-
-## Future Evolution
-
-As EPOS evolves, additional aggregates are expected to be introduced, including:
-
-- Payment
-- Card
-- Loan
-- Mortgage
-- Beneficiary
-- Standing Instruction
-- Limit
-- Risk
-- Fraud
-- Pricing
-- Notification
-- Document
-- Case Management
-
-Each future aggregate will follow the same architectural principles established in this document.
+These documents build upon the enterprise model defined here and should not duplicate its contents.
