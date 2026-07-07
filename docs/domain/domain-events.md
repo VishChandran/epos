@@ -50,6 +50,37 @@ Poor examples:
 
 The poor examples describe commands or actions. The good examples describe facts that have occurred.
 
+## Business Failures vs Technical Failures
+
+Not every failure is a domain event.
+
+A failure is a domain event only when it represents a meaningful business outcome.
+
+### Business Failures (Domain Events)
+
+Examples:
+
+- Transaction Declined
+- Transaction Rejected
+- Account Frozen
+- Customer Suspended
+- Agreement Expired
+- Payment Returned
+
+These events describe valid business outcomes and are part of the domain model.
+
+### Technical Failures (Operational Events)
+
+Examples:
+
+- Database Connection Failed
+- Network Timeout
+- Kafka Publish Failed
+- Redis Unavailable
+- API Gateway Timeout
+
+These events describe infrastructure or operational issues and belong to observability, monitoring, logging, and incident management rather than the business domain.
+
 ---
 
 ## 3. Domain Event Principles
@@ -66,6 +97,8 @@ EPOS follows these event design principles:
 8. Domain events may later become integration events, audit records, notifications, or workflow triggers.
 9. Domain events do not directly mutate another aggregate.
 10. Cross-context reactions to events are handled by application services, domain services, process managers, or integration handlers.
+11. Domain events may represent successful or unsuccessful business outcomes, provided the outcome is meaningful to the business.
+12. Technical or infrastructure failures are not domain events and should be modeled as operational events.
 
 ---
 
