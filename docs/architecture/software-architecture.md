@@ -131,73 +131,66 @@ Infrastructure
 ```mermaid
 flowchart TB
 
-Channels
-
-subgraph Enterprise Services
-
-Notifications
-Documents
-Reporting
-Workflow
-Audit
-
+subgraph Channels
+    Web[Web Banking]
+    Mobile[Mobile Banking]
+    ATM[ATM]
+    POS[POS]
+    IVR[IVR]
+    APIs[APIs]
 end
 
-subgraph Enterprise Banking
-
-Party
-Customer
-Products
-Accounts
-Ledger
-
-Payments
-Cards
-FX
-Trade
-
-Risk
-Compliance
-
+subgraph EnterpriseServices[Enterprise Services]
+    Notifications[Notifications]
+    Documents[Documents]
+    Reporting[Reporting]
+    Workflow[Workflow]
+    Audit[Audit]
 end
 
-subgraph Platform
-
-EventPlatform["Event Platform (Kafka)"]
-WorkflowEngine
-Observability
-Configuration
-
+subgraph EnterpriseBanking[Enterprise Banking]
+    Party[Party]
+    Customer[Customer]
+    Products[Products]
+    Accounts[Accounts]
+    Ledger[Ledger]
+    Payments[Payments]
+    Cards[Cards]
+    FX[Foreign Exchange]
+    Trade[Trade Finance]
+    Risk[Risk]
+    Compliance[Compliance]
 end
 
-subgraph Infrastructure
-
-PostgreSQL
-
-Redis
-
-Kubernetes
-
-ServiceMesh
-
+subgraph Platform[Platform]
+    EventPlatform[Event Platform Kafka]
+    WorkflowEngine[Workflow Engine]
+    Observability[Observability]
+    Configuration[Configuration]
 end
 
-subgraph Intelligence
-
-AI["Enterprise AI Copilot"]
-
+subgraph Infrastructure[Infrastructure]
+    PostgreSQL[PostgreSQL]
+    Redis[Redis]
+    Kubernetes[Kubernetes]
+    ServiceMesh[Service Mesh]
 end
 
-Channels --> Enterprise Banking
+subgraph Intelligence[Intelligence]
+    AI[Enterprise AI Copilot]
+end
 
-Enterprise Banking --> Platform
+Web --> EnterpriseBanking
+Mobile --> EnterpriseBanking
+ATM --> EnterpriseBanking
+POS --> EnterpriseBanking
+IVR --> EnterpriseBanking
+APIs --> EnterpriseBanking
 
+EnterpriseBanking --> EnterpriseServices
+EnterpriseBanking --> Platform
 Platform --> Infrastructure
-
-Infrastructure --> AI
-
-Enterprise Banking --> Enterprise Services
-
+Infrastructure --> Intelligence
 ```
 
 ### Target Capabilities
