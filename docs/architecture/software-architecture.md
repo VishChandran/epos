@@ -60,31 +60,16 @@ SystemAPI -. Future Integration .-> Party
 
 ## After Release 1 – Enterprise Foundation
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
+flowchart LR
+    API[System API]
+    Domain[Enterprise Domain Package]
+    Identity[Identity Context<br/>Party, PartyId]
+    Foundation[Foundation Contexts<br/>Customer, Product, Agreement, Account, Ledger]
 
-subgraph Applications
-    SystemAPI[System API]
-end
-
-subgraph EnterpriseDomain[Enterprise Domain]
-    Party[Party]
-    Customer[Customer]
-    Product[Product]
-    Agreement[Agreement]
-    Account[Account]
-    Ledger[Ledger]
-    ReferenceData[Reference Data]
-end
-
-SystemAPI --> EnterpriseDomain
-Customer --> Party
-Agreement --> Customer
-Agreement --> Product
-Account --> Agreement
-Ledger --> Account
+    API -. future integration .-> Domain
+    Domain --> Identity
+    Domain --> Foundation
 ```
 
 ### Release Deliverables
@@ -106,38 +91,16 @@ Ledger --> Account
 
 ## After Release 2 – Core Platform Services
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
+flowchart LR
+    API[System API]
+    Domain[Enterprise Domain]
+    Platform[Core Platform Services]
+    Shared[Shared Services<br/>Config, Audit, Workflow, Notifications]
 
-subgraph Applications
-    SystemAPI[System API]
-end
-
-subgraph EnterpriseDomain[Enterprise Domain]
-    Party[Party]
-    Customer[Customer]
-    Product[Product]
-    Agreement[Agreement]
-    Account[Account]
-    Ledger[Ledger]
-end
-
-subgraph CorePlatformServices[Core Platform Services]
-    Configuration[Configuration]
-    Secrets[Secrets Management]
-    Audit[Audit]
-    Notifications[Notifications]
-    Documents[Documents]
-    Workflow[Workflow]
-    ReferenceData[Reference Data]
-end
-
-SystemAPI --> EnterpriseDomain
-SystemAPI --> CorePlatformServices
-EnterpriseDomain --> ReferenceData
-CorePlatformServices --> Audit
+    API --> Domain
+    API --> Platform
+    Platform --> Shared
 ```
 
 ### Release Deliverables
@@ -155,45 +118,18 @@ CorePlatformServices --> Audit
 
 ## After Release 3 – Core Banking Platform
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
+flowchart LR
+    API[System API]
+    CoreBanking[Core Banking Platform]
+    Foundation[Enterprise Foundation]
+    Ledger[Ledger & Transactions]
+    Services[Core Platform Services]
 
-subgraph Applications
-    SystemAPI[System API]
-end
-
-subgraph EnterpriseFoundation[Enterprise Foundation]
-    Party[Party]
-    Customer[Customer]
-    Product[Product]
-    Agreement[Agreement]
-end
-
-subgraph CoreBanking[Core Banking Platform]
-    BankingProducts[Banking Products]
-    Accounts[Accounts]
-    Ledger[Ledger]
-    Balances[Balances]
-    Transactions[Transactions]
-    Postings[Ledger Postings]
-end
-
-subgraph CorePlatformServices[Core Platform Services]
-    Audit[Audit]
-    Workflow[Workflow]
-    Notifications[Notifications]
-    ReferenceData[Reference Data]
-end
-
-SystemAPI --> EnterpriseFoundation
-SystemAPI --> CoreBanking
-CoreBanking --> EnterpriseFoundation
-CoreBanking --> CorePlatformServices
-Accounts --> Ledger
-Transactions --> Postings
-Postings --> Ledger
+    API --> CoreBanking
+    CoreBanking --> Foundation
+    CoreBanking --> Ledger
+    CoreBanking --> Services
 ```
 
 ### Release Deliverables
@@ -211,53 +147,20 @@ Postings --> Ledger
 
 ## After Release 4 – Enterprise Banking Foundation
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
+flowchart LR
+    Channels[Channels<br/>Ops Portal, APIs, Web, Mobile, ATM, POS, IVR, In-Branch]
+    Apps[Application Layer<br/>Use Cases & Orchestration]
+    Banking[Enterprise Banking<br/>Payments, Cards, FX, Trade, Risk]
+    Core[Core Banking<br/>Customer, Accounts, Ledger]
+    Services[Enterprise Services<br/>Audit, Workflow, Documents]
+    External[External Networks<br/>Payment Networks, Switches, Partners]
 
-subgraph Channels
-    OpsPortal[Internal Operations Portal]
-    REST[REST APIs]
-    Web[Web Banking]
-    Mobile[Mobile Banking]
-    ATM[ATM]
-    POS[POS]
-    IVR[IVR]
-    InBranch[In-Branch]
-end
-
-subgraph EnterpriseBanking[Enterprise Banking]
-    Payments[Payments]
-    Cards[Cards]
-    FX[Foreign Exchange]
-    TradeFoundation[Trade Finance Foundation]
-    RiskFoundation[Risk & Compliance Foundation]
-end
-
-subgraph CoreBanking[Core Banking Platform]
-    Customer[Customer]
-    Accounts[Accounts]
-    Ledger[Ledger]
-    Products[Products]
-end
-
-subgraph CorePlatformServices[Core Platform Services]
-    Audit[Audit]
-    Workflow[Workflow]
-    Notifications[Notifications]
-    Documents[Documents]
-end
-
-Channels --> EnterpriseBanking
-EnterpriseBanking --> CoreBanking
-EnterpriseBanking --> CorePlatformServices
-Payments --> Accounts
-Payments --> Ledger
-Cards --> Accounts
-FX --> Payments
-TradeFoundation --> Documents
-RiskFoundation --> Payments
+    Channels --> Apps
+    Apps --> Banking
+    Banking --> Core
+    Banking --> Services
+    Banking --> External
 ```
 
 ### Release Deliverables
@@ -278,51 +181,18 @@ RiskFoundation --> Payments
 
 ## After Release 5 – Enterprise Banking Expansion & Distributed Platform
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
+flowchart LR
+    Channels[Channels]
+    Banking[Enterprise Banking]
+    Distributed[Distributed Platform<br/>Kafka, Outbox, Saga, DLQ]
+    Data[Data Stores<br/>PostgreSQL, Redis]
+    External[External Integrations]
 
-subgraph Channels
-    Web[Web Banking]
-    Mobile[Mobile Banking]
-    ATM[ATM]
-    POS[POS]
-    IVR[IVR]
-    InBranch[In-Branch]
-    APIs[Partner APIs]
-end
-
-subgraph EnterpriseBanking[Enterprise Banking]
-    Payments[Advanced Payments]
-    Settlement[Settlement]
-    Cards[Cards]
-    FX[Advanced FX]
-    Trade[Advanced Trade Finance]
-    Risk[Risk & Compliance]
-end
-
-subgraph DistributedPlatform[Distributed Platform]
-    Kafka[Kafka / Event Streaming]
-    Outbox[Outbox]
-    DLQ[Dead Letter Queue]
-    Retries[Retry Framework]
-    Saga[Saga Orchestration]
-    EventReplay[Event Replay]
-end
-
-subgraph Infrastructure
-    PostgreSQL[PostgreSQL]
-    Redis[Redis]
-end
-
-Channels --> EnterpriseBanking
-EnterpriseBanking --> DistributedPlatform
-DistributedPlatform --> Infrastructure
-Outbox --> Kafka
-Kafka --> DLQ
-Saga --> EnterpriseBanking
-Retries --> EnterpriseBanking
+    Channels --> Banking
+    Banking --> Distributed
+    Distributed --> Data
+    Distributed --> External
 ```
 
 ### Release Deliverables
@@ -343,49 +213,18 @@ Retries --> EnterpriseBanking
 
 ## After Release 6 – Platform Engineering & Reliability
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
+flowchart LR
+    Platform[Enterprise Platform]
+    Reliability[Reliability Platform<br/>Observability, Metrics, Tracing]
+    Engineering[Platform Engineering<br/>CI/CD, IaC, Service Mesh]
+    Runtime[Runtime Platform<br/>Kubernetes]
+    Operations[Operations<br/>Runbooks, DR, Resiliency]
 
-subgraph Channels
-    Web[Web Banking]
-    Mobile[Mobile Banking]
-    ATM[ATM]
-    POS[POS]
-    IVR[IVR]
-    InBranch[In-Branch]
-    APIs[APIs]
-end
-
-subgraph EnterprisePlatform[Enterprise Platform]
-    Banking[Enterprise Banking Services]
-    PlatformServices[Core Platform Services]
-    Distributed[Distributed Platform]
-end
-
-subgraph ReliabilityPlatform[Reliability Platform]
-    Observability[Observability]
-    Metrics[Metrics]
-    Tracing[Distributed Tracing]
-    Logging[Centralized Logging]
-    Resiliency[Resiliency Patterns]
-    Runbooks[Runbooks]
-end
-
-subgraph PlatformEngineering[Platform Engineering]
-    CICD[CI/CD]
-    IaC[Infrastructure Automation]
-    ServiceMesh[Service Mesh]
-    Kubernetes[Kubernetes]
-end
-
-Channels --> EnterprisePlatform
-EnterprisePlatform --> ReliabilityPlatform
-EnterprisePlatform --> PlatformEngineering
-PlatformEngineering --> Kubernetes
-PlatformEngineering --> ServiceMesh
-ReliabilityPlatform --> Runbooks
+    Platform --> Reliability
+    Platform --> Engineering
+    Engineering --> Runtime
+    Reliability --> Operations
 ```
 
 ### Release Deliverables
@@ -405,50 +244,18 @@ ReliabilityPlatform --> Runbooks
 
 ## After Release 7 – Enterprise Intelligence & Operations
 
-### Interim Architecture
-
 ```mermaid
-flowchart TB
-
-subgraph Channels
-    Web[Web Banking]
-    Mobile[Mobile Banking]
-    ATM[ATM]
-    POS[POS]
-    IVR[IVR]
-    InBranch[In-Branch]
-    APIs[APIs]
-end
-
-subgraph EnterpriseBanking[Enterprise Banking]
-    CoreBanking[Core Banking]
-    Payments[Payments]
-    Cards[Cards]
-    FX[Foreign Exchange]
-    Trade[Trade Finance]
-    Risk[Risk & Compliance]
-end
-
-subgraph Platform[Platform Services]
-    EventPlatform[Event Platform]
-    Workflow[Workflow]
-    Audit[Audit]
-    Reporting[Reporting]
-    Observability[Observability]
-end
-
-subgraph Intelligence[Enterprise Intelligence]
-    Analytics[Analytics]
-    Dashboards[Operational Dashboards]
-    AICopilots[AI Copilots]
-    DecisionSupport[Decision Support]
+flowchart LR
+    Enterprise[Enterprise Platform]
+    Operations[Unified Operations]
+    Intelligence[Enterprise Intelligence<br/>Analytics, Dashboards, AI Copilots]
     Knowledge[Knowledge Platform]
-end
+    Reporting[Enterprise Reporting]
 
-Channels --> EnterpriseBanking
-EnterpriseBanking --> Platform
-Platform --> Intelligence
-EnterpriseBanking --> Intelligence
+    Enterprise --> Operations
+    Enterprise --> Intelligence
+    Intelligence --> Knowledge
+    Intelligence --> Reporting
 ```
 
 ### Release Deliverables
