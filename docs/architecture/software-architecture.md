@@ -308,6 +308,49 @@ Enterprise Intelligence
 
 ---
 
+## Migration-Aware Architecture Principles
+
+EPOS is designed to support incremental enterprise modernization rather than one-time replacement.
+
+Although migration infrastructure is introduced in later releases, all application and domain code should be developed with future migration, rollback, and coexistence in mind.
+
+| Principle | Design Guideline | Introduced |
+|-----------|------------------|------------|
+| Business-first Domain | Domain model remains independent of migration and infrastructure concerns. | Release 1 |
+| Infrastructure Independence | Domain layer shall not depend on databases, messaging platforms, or external systems. | Release 1 |
+| Stable Business Identity | Business entities use immutable identifiers to support coexistence and migration between legacy and modern platforms. | Release 1 |
+| Explicit Business State | Entity lifecycle is represented through explicit business states rather than implicit logic to enable controlled rollback. | Release 1 |
+| Repository Abstraction | Persistence is accessed through repository interfaces, allowing multiple storage implementations during migration. | Release 1 |
+| Application Orchestration | Transaction boundaries, migration logic, and infrastructure orchestration belong in the Application Layer rather than the Domain Layer. | Release 2 |
+| Feature-driven Deployment | New capabilities should support progressive enablement through configuration or feature flags. | Release 4 |
+| Migration Routing | Requests should be capable of being routed to legacy or modern implementations based on configurable migration rules. | Release 4 |
+| Idempotent Processing | Operations that may be retried or replayed must support idempotent execution. | Release 4 |
+| Reliable Event Publication | Database updates and event publication shall support transactional consistency through the Outbox Pattern. | Release 4 |
+| Parallel Processing Support | High-risk capabilities should support legacy and modern systems operating concurrently during migration. | Release 4 |
+| Event-driven Integration | Cross-domain communication should transition from synchronous integration to asynchronous event-driven messaging where appropriate. | Release 5 |
+| Distributed Reliability | Enterprise messaging shall support retries, dead-letter queues, replay, and eventual consistency. | Release 5 |
+| Reversible Deployment | Production deployments should support controlled rollback through deployment and routing strategies without requiring domain model changes. | Release 5 |
+
+---
+
+### Design Philosophy
+
+The EPOS architecture follows a migration-aware design philosophy:
+
+- Business capabilities are implemented independently of migration strategies.
+- Infrastructure concerns remain outside the Domain Layer.
+- Migration, rollback, routing, and coexistence are implemented through the Application and Infrastructure layers.
+- Architectural decisions made in early releases should minimize refactoring as the platform evolves.
+- New enterprise capabilities should integrate with existing migration patterns rather than introducing bespoke migration logic.
+
+---
+
+### Guiding Principle
+
+> **Design the platform so that migration is an operational concern, not a domain concern.**
+
+Business logic should remain stable regardless of whether the platform is operating in pilot, phased migration, parallel run, or full production mode.
+
 # Revision History
 
 | Version | Release | Description |
