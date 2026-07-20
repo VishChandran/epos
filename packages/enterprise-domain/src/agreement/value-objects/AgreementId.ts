@@ -1,19 +1,7 @@
-export class AgreementId {
-  private readonly value: string;
+import { DomainId } from "../../shared/domain/DomainId.js";
 
+export class AgreementId extends DomainId {
   public constructor(value: string) {
-    if (!value || value.trim().length === 0) {
-      throw new Error("AgreementId cannot be empty.");
-    }
-
-    this.value = value;
-  }
-
-  public toString(): string {
-    return this.value;
-  }
-
-  public equals(other: AgreementId): boolean {
-    return this.value === other.value;
+    super(value, "AgreementId");
   }
 }
