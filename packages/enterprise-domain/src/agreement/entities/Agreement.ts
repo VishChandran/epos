@@ -19,11 +19,18 @@ type AgreementProps = {
 
 export class Agreement {
   private readonly id: AgreementId;
-  private props: AgreementProps;
+  private readonly props: AgreementProps;
 
   public constructor(id: AgreementId, props: AgreementProps) {
+    if (Number.isNaN(props.effectiveDate.getTime())) {
+      throw new Error("Agreement effective date must be valid.");
+    }
+
     this.id = id;
-    this.props = props;
+    this.props = {
+      ...props,
+      effectiveDate: new Date(props.effectiveDate)
+    };
   }
 
   public getId(): AgreementId {
@@ -43,7 +50,7 @@ export class Agreement {
   }
 
   public getEffectiveDate(): Date {
-    return this.props.effectiveDate;
+    return new Date(this.props.effectiveDate);
   }
 
   public activate(): void {

@@ -15,7 +15,7 @@ type ProductProps = {
 
 export class Product {
   private readonly id: ProductId;
-  private props: ProductProps;
+  private readonly props: ProductProps;
 
   public constructor(id: ProductId, props: ProductProps) {
     if (!props.code || props.code.trim().length === 0) {
@@ -27,7 +27,7 @@ export class Product {
     }
 
     this.id = id;
-    this.props = props;
+    this.props = { ...props };
   }
 
   public getId(): ProductId {

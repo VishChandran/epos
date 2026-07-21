@@ -1,12 +1,12 @@
 import { AccountId } from "../../account/value-objects/AccountId.js";
 import { LedgerId } from "../value-objects/LedgerId.js";
+import { LedgerAlreadyClosedError } from "../errors/LedgerAlreadyClosedError.js";
 
 export type LedgerStatus = "OPEN" | "CLOSED";
 
 export class Ledger {
-  public readonly id: LedgerId;
-  public readonly accountId: AccountId;
-
+  private readonly id: LedgerId;
+  private readonly accountId: AccountId;
   private status: LedgerStatus;
 
   public constructor(id: LedgerId, accountId: AccountId) {
@@ -15,16 +15,24 @@ export class Ledger {
     this.status = "OPEN";
   }
 
-  public close(): void {
-    if (this.status === "CLOSED") {
-      throw new Error("Ledger is already closed.");
-    }
+  public getId(): LedgerId {
+    return this.id;
+  }
 
-    this.status = "CLOSED";
+  public getAccountId(): AccountId {
+    return this.accountId;
   }
 
   public getStatus(): LedgerStatus {
     return this.status;
+  }
+
+  public close(): void {
+    if (this.status === "CLOSED") {
+      throw new LedgerAlreadyClosedError();
+    }
+
+    this.status = "CLOSED";
   }
 
   public equals(other: Ledger): boolean {

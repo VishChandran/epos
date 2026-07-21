@@ -1,4 +1,5 @@
 import { PartyId } from "../value-objects/PartyId.js";
+import { InvalidPartyDisplayNameError } from "../errors/InvalidPartyDisplayNameError.js";
 
 type PartyType = "PERSON" | "ORGANIZATION";
 
@@ -12,11 +13,11 @@ type PartyProps = {
 
 export class Party {
   private readonly id: PartyId;
-  private props: PartyProps;
+  private readonly props: PartyProps;
 
   public constructor(id: PartyId, props: PartyProps) {
     if (!props.displayName || props.displayName.trim().length === 0) {
-      throw new Error("Party display name cannot be empty.");
+      throw new InvalidPartyDisplayNameError();
     }
 
     this.id = id;
@@ -41,7 +42,7 @@ export class Party {
 
   public changeDisplayName(displayName: string): void {
     if (!displayName || displayName.trim().length === 0) {
-      throw new Error("Party display name cannot be empty.");
+      throw new InvalidPartyDisplayNameError();
     }
 
     this.props.displayName = displayName;

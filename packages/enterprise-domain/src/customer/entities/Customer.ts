@@ -14,11 +14,18 @@ type CustomerProps = {
 
 export class Customer {
   private readonly id: CustomerId;
-  private props: CustomerProps;
+  private readonly props: CustomerProps;
 
   public constructor(id: CustomerId, props: CustomerProps) {
+    if (Number.isNaN(props.customerSince.getTime())) {
+      throw new Error("Customer since date must be valid.");
+    }
+
     this.id = id;
-    this.props = props;
+    this.props = {
+      ...props,
+      customerSince: new Date(props.customerSince)
+    };
   }
 
   public getId(): CustomerId {
@@ -38,7 +45,7 @@ export class Customer {
   }
 
   public getCustomerSince(): Date {
-    return this.props.customerSince;
+    return new Date(this.props.customerSince);
   }
 
   public activate(): void {

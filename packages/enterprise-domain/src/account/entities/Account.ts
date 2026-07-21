@@ -1,12 +1,12 @@
 import { AgreementId } from "../../agreement/value-objects/AgreementId.js";
 import { AccountId } from "../value-objects/AccountId.js";
+import { InvalidAccountStatusTransitionError } from "../errors/InvalidAccountStatusTransitionError.js";
 
 export type AccountStatus = "PENDING" | "ACTIVE" | "SUSPENDED" | "CLOSED";
 
 export class Account {
-  public readonly id: AccountId;
-  public readonly agreementId: AgreementId;
-
+  private readonly id: AccountId;
+  private readonly agreementId: AgreementId;
   private status: AccountStatus;
 
   public constructor(id: AccountId, agreementId: AgreementId) {
@@ -15,9 +15,21 @@ export class Account {
     this.status = "PENDING";
   }
 
+  public getId(): AccountId {
+    return this.id;
+  }
+
+  public getAgreementId(): AgreementId {
+    return this.agreementId;
+  }
+
+  public getStatus(): AccountStatus {
+    return this.status;
+  }
+
   public activate(): void {
     if (this.status !== "PENDING" && this.status !== "SUSPENDED") {
-      throw new Error(
+      throw new InvalidAccountStatusTransitionError(
         `Account cannot be activated from status ${this.status}.`
       );
     }
@@ -27,7 +39,7 @@ export class Account {
 
   public suspend(): void {
     if (this.status !== "ACTIVE") {
-      throw new Error(
+      throw new InvalidAccountStatusTransitionError(
         `Account cannot be suspended from status ${this.status}.`
       );
     }
@@ -37,14 +49,12 @@ export class Account {
 
   public close(): void {
     if (this.status !== "ACTIVE" && this.status !== "SUSPENDED") {
-      throw new Error(`Account cannot be closed from status ${this.status}.`);
+      throw new InvalidAccountStatusTransitionError(
+        `Account cannot be closed from status ${this.status}.`
+      );
     }
 
     this.status = "CLOSED";
-  }
-
-  public getStatus(): AccountStatus {
-    return this.status;
   }
 
   public equals(other: Account): boolean {
